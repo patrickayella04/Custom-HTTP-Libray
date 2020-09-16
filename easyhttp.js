@@ -24,6 +24,23 @@ easyHTTP.prototype.get = function (url, callback) {
 }
 
 // Make an HTTP POST Request 
+easyHTTP.prototype.post = function (url, data, callback) {
+    this.http.open('POST', url, true)
+    // As we set our onload, in addition to that we set our content type. which is done in the http.header...
+    this.http.setRequestHeader('Content-type', 'application/json');
+
+    let self = this; // when in a different function the this key word pertains to that function. (arrow functions fix this my adding a lexical this.) A common way to fix this in ES5 is to set another variable, usally called 'self' or 'that' equal to this. so we can capture that this. in this scope. 
+    this.http.onload = function () {
+        
+    callback(null, self.http.responseText); // The response text should be the new post that we added. We should know its a new post as it should have the id of 101.
+        
+    }
+
+
+
+    this.http.send(JSON.stringify(data)) // when your sending data, this. is a regular javaScript object when we pass it in, SO we need to pass it through a function called JSON.stringify() and send it as a JSON string. 
+}
+
 
 // Make an HTTP PUT Request 
 
